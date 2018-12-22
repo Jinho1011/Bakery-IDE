@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>CodeBakery IDE</title>
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="../javascript/styles/a11y-light.css">
+  <script src="../javascript/highlight.pack.js"></script>
+  <script src="../../blockly/blockly_compressed.js"></script>
+  <script src="../../blockly/blocks_compressed.js"></script>
+  <script src="../../blockly/javascript_compressed.js"></script>
+  <script src="../../blockly/msg/js/ko.js"></script>
+  <script src="../../blockly/generators/javascript/arduino.js"></script>
+  <script src="../../blockly/generators/javascript/loops.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+  <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
+    <category name="논리" colour="#5C81A6">
+      <block type="controls_if"></block>
+      <block type="logic_compare">
+        <field name="OP">EQ</field>
+      </block>
+      <block type="logic_operation">
+        <field name="OP">AND</field>
+      </block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean">
+        <field name="BOOL">TRUE</field>
+      </block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+    <category name="반복" colour="#5CA65C">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="controls_whileUntil">
+        <field name="MODE">WHILE</field>
+      </block>
+      <block type="controls_flow_statements">
+        <field name="FLOW">BREAK</field>
+      </block>
+    </category>
+    <category name="연산" colour="#5C68A6">
+      <block type="math_arithmetic">
+        <field name="OP">ADD</field>
+        <value name="A">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_number_property">
+        <mutation divisor_input="false"></mutation>
+        <field name="PROPERTY">EVEN</field>
+        <value name="NUMBER_TO_CHECK">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+      <block type="math_on_list">
+        <mutation op="SUM"></mutation>
+        <field name="OP">SUM</field>
+      </block>
+      <block type="math_modulo">
+        <value name="DIVIDEND">
+          <shadow type="math_number">
+            <field name="NUM">64</field>
+          </shadow>
+        </value>
+        <value name="DIVISOR">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <category name="변수" colour="#A65C81" custom="VARIABLE"></category>
+    <sep></sep>
+    <category name="아두이노 기본" colour="#6d5ba5">
+      <block type="setup">
+        <field name="NAME">HIGH</field>
+      </block>
+      <block type="loop">
+        <field name="NAME">HIGH</field>
+      </block>
+      <block type="digital_write">
+        <field name="NAME">HIGH</field>
+      </block>
+      <block type="digital_read"></block>
+      <block type="analog_write"></block>
+      <block type="analog_read"></block>
+      <block type="pin_mode">
+        <field name="MODE">INPUT</field>
+      </block>
+      <block type="delay"></block>
+      <block type="high_low">
+        <field name="NAME">HIGH</field>
+      </block>
+    </category>
+  </xml>
+
+  <div class="container">
+    <div class="btn-nav">
+      <div class="btn-nav-wrapper">
+        <div class="scan-btn">
+          SCAN
+        </div>
+      </div>
+      <div class="btn-nav-wrapper">
+        <div class="upload-btn">
+          UPLOAD
+        </div>
+      </div>
+      <div class="btn-nav-wrapper">
+        <div class="code-btn">
+          CODE
+        </div>
+      </div>
+    </div>
+    <div class="header">
+      <div class="draggable">
+        
+      </div>
+      <div class="btn-container">
+        <div class="btn-wrapper">
+          <div class="minimize">
+            <img src="../images/minimize.svg" alt="">
+          </div>
+        </div>
+        <div class="btn-wrapper">
+          <div class="maximize">
+            <img src="../images/maximize.svg" alt="">
+          </div>
+        </div>
+        <div class="btn-wrapper">
+          <div class="close">
+            <img src="../images/close.svg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div id="blockly-section">
+
+      </div>
+      <div class="block-code-wrapper">
+        <pre><code id="block-code">
+        </code></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script src="../../renderer.js"></script>
+  <script>
+    var fs = require("fs")
+    fs.writeFileSync("code.txt", "", "utf8")
+    var workspace = Blockly.inject("blockly-section", {
+      toolbox: document.getElementById("toolbox")
+    });
+    const codeChanged = (event) => {
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      document.getElementById("block-code").innerHTML = code;
+      hljs.initHighlighting.called = false;
+      hljs.initHighlighting();
+      fs.writeFileSync("code.txt", code, "utf8");
+    }
+    workspace.addChangeListener(codeChanged);
+  </script>
+</body>
+
+</html>

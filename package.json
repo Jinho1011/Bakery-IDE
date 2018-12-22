@@ -1,0 +1,86 @@
+{
+  "name": "codebakery-ide",
+  "version": "1.0.0",
+  "description": "arduino ide with block coding",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:osx": "build --mac",
+    "build:linux": "npm run build:linux32 && npm run build:linux64",
+    "build:linux32": "build --linux --ia32",
+    "build:linux64": "build --linux --x64",
+    "build:win": "npm run build:win32 && npm run build:win64", 
+    "build:win32": "build --win --ia32",
+    "build:win64": "build --win --x64"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jinho1011/codebakery-IDE.git"
+  },
+  "author": "codebakery",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jinho1011/codebakery-IDE/issues"
+  },
+  "homepage": "https://github.com/Jinho1011/codebakery-IDE#readme",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "electron-reload": "^1.4.0"
+  },
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "asar": "^0.14.6",
+    "electron-builder": "^20.38.3",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "build": {
+    "productName": "codebakery",
+    "appId": "com.codebakery.ide",
+    "asar": true,
+    "protocols" : {
+        "name" : "codebakery",
+        "schemes" : ["codebakery"]
+    },
+    "mac": { 
+      "target": [
+        "default"
+      ],
+      "icon": "./resources/installer/Icon.icns"
+    },
+    "dmg": {
+      "title": "codebakery",
+      "icon": "./resources/installer/Icon.icns"
+    },
+    "win": {  
+      "target": [  
+        "zip",  
+        "nsis" 
+      ],
+      "icon": "./icon/icon.ico"
+    },
+    "linux": { 
+      "target": [
+        "AppImage", 
+        "deb",
+        "rpm",
+        "zip",
+        "tar.gz"
+      ],
+      "icon": "./resources/linuxicon"
+    },
+    "nsis":{
+      "oneClick" : false, 
+      "allowToChangeInstallationDirectory" :true 
+    },
+    "directories": {
+      "buildResources": "resources/installer/",
+      "output": "dist/",
+      "app": "."
+    }
+  }
+}
